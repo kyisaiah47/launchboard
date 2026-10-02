@@ -1,0 +1,3 @@
+=== 2026-10-01T19:30:00.000Z start: /bin/echo hello
+hello from launchd, every five minutes
+=== 2026-10-01T19:30:00.045Z exit 0 in 0.0s

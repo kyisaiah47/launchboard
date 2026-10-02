@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>LaunchBoard</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/app.css">
+</head>
+<body>
+<header class="bar">
+  <a class="brand" href="/" aria-label="LaunchBoard, all jobs">
+    <svg class="mark" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><rect x="2.5" y="3.5" width="19" height="17" rx="3.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M6.5 9h5M6.5 12.5h8M6.5 16h3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle class="m-ok" cx="17" cy="9" r="1.8"/><circle class="m-bad" cx="17.5" cy="16" r="1.8"/></svg>
+    <span>LaunchBoard</span>
+  </a>
+  <p class="scope" id="scope"></p>
+  <p class="live" id="live" data-state="connecting"><i aria-hidden="true"></i><span id="live-word">connecting</span><span class="clock" id="clock"></span></p>
+</header>
+<main id="main">
+  <section class="summary" aria-live="polite">
+    <p class="lede" id="lede">Reading launchd.</p>
+    <p class="sub" id="sub"></p>
+    <p class="warn" id="warn" hidden></p>
+  </section>
+  <div class="tools">
+    <div class="filters" id="filters" role="group" aria-label="Show"></div>
+    <label class="search"><span class="vh">Filter jobs by label or program</span><input id="q" type="search" placeholder="Filter by label or program" autocomplete="off" spellcheck="false"></label>
+  </div>
+  <div class="grid">
+    <section class="list" aria-label="Jobs">
+      <table>
+        <thead><tr><th scope="col">State</th><th scope="col">Job</th><th scope="col">Schedule</th><th scope="col">Last exit</th><th scope="col">Today</th></tr></thead>
+        <tbody id="rows"></tbody>
+      </table>
+      <p class="empty" id="empty" hidden></p>
+    </section>
+    <aside class="detail" id="detail" aria-live="polite"></aside>
+  </div>
+</main>
+<footer class="foot" id="foot"></footer>
+<script src="/app.js"></script>
+</body>
+</html>

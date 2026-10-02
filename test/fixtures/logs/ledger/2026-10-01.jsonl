@@ -1,0 +1,10 @@
+{"label":"com.example.launchboard.hello","start":"2026-10-01T13:00:00.000Z","end":"2026-10-01T13:00:00.040Z","ms":40,"code":0,"status":"ok","reason":"exit 0 in 0.0s","said":"hello from launchd, every five minutes"}
+{"label":"com.example.launchboard.hello","start":"2026-10-01T13:05:00.000Z","end":"2026-10-01T13:05:00.050Z","ms":50,"code":0,"status":"ok","reason":"exit 0 in 0.1s","said":"hello from launchd, every five minutes"}
+this line is not json and is skipped
+{"label":"com.example.launchboard.hello","start":"2026-10-01T13:10:00.000Z","end":"2026-10-01T13:10:01.500Z","ms":1500,"code":3,"status":"fail","reason":"exit 3 in 1.5s; 1 in a row","said":"disk full"}
+{"label":"com.example.launchboard.hello","start":"2026-10-01T13:15:00.000Z","end":"2026-10-01T13:15:00.000Z","ms":0,"code":null,"status":"held","reason":"backed off after 1 failure"}
+{"label":"com.example.launchboard.hello","start":"2026-10-01T19:30:00.000Z","end":"2026-10-01T19:30:00.045Z","ms":45,"code":0,"status":"ok","reason":"exit 0 in 0.0s","said":"hello from launchd, every five minutes"}
+{"note":"a row with no label is not a run"}
+{"label":"com.example.flaky","start":"2026-10-01T14:00:00.000Z","end":"2026-10-01T14:00:02.000Z","ms":2000,"code":1,"status":"fail","reason":"exit 1 in 2.0s; 3 in a row","said":"connection refused","tripped":true}
+{"label":"com.example.flaky","start":"2026-10-01T15:00:00.000Z","end":"2026-10-01T15:00:00.000Z","ms":0,"code":null,"status":"tripped","reason":"tripped after 3 failures with exit 1"}
+{"label":"com.other.notours","start":"2026-10-01T15:00:00.000Z","end":"2026-10-01T15:00:00.010Z","ms":10,"code":0,"status":"ok","reason":"exit 0","said":"not on the board"}

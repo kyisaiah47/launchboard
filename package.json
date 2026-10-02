@@ -1,0 +1,54 @@
+{
+  "name": "launchboard",
+  "version": "0.1.0",
+  "description": "One page for every scheduled job on your Mac: what is running, what failed, what ran today.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Compound Labs (https://thecompound.tech)",
+  "homepage": "https://github.com/kyisaiah47/launchboard#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kyisaiah47/launchboard.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kyisaiah47/launchboard/issues"
+  },
+  "keywords": [
+    "launchd",
+    "launchctl",
+    "macos",
+    "cron",
+    "scheduler",
+    "dashboard",
+    "jobs",
+    "monitoring",
+    "circuit-breaker"
+  ],
+  "bin": {
+    "launchboard": "src/cli.js"
+  },
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "src",
+    "examples",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "os": [
+    "darwin",
+    "linux"
+  ],
+  "scripts": {
+    "start": "node src/cli.js",
+    "test": "TZ=UTC node --test test/*.test.js",
+    "scrub": "node scripts/scrub-gate.mjs",
+    "check": "node scripts/scrub-gate.mjs && npm test"
+  }
+}

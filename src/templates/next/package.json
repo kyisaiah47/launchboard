@@ -1,0 +1,17 @@
+{
+  "name": "__APP_NAME__",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev -H 127.0.0.1 -p 3991",
+    "build": "next build",
+    "start": "next start -H 127.0.0.1 -p 3991"
+  },
+  "dependencies": {
+    "launchboard": "^__LAUNCHBOARD_VERSION__",
+    "next": "^16.0.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  }
+}

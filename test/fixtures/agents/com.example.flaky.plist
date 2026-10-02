@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.example.flaky</string>
+  <key>ProgramArguments</key>
+  <array><string>/usr/bin/env</string><string>launchboard</string><string>run</string><string>com.example.flaky</string><string>--</string><string>/usr/local/bin/flaky</string></array>
+  <key>StartInterval</key>
+  <integer>3600</integer>
+</dict>
+</plist>
