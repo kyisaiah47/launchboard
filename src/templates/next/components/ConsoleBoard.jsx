@@ -4,7 +4,7 @@
 // last lines of its logs.
 import { useEffect } from 'react';
 import { useBoard, useJob, useKept } from '../lib/useBoard';
-import { ATTENTION, ranToday, plural, when, ago, dur, hm, sameDay, rowTime, runWord, runState, stateSentence, summarySentences, scopeWords } from '../lib/words';
+import { ATTENTION, ranToday, plural, when, ago, dur, hm, sameDay, rowTime, runWord, runState, shortExit, stateSentence, summarySentences, scopeWords } from '../lib/words';
 import Pill from './Pill';
 
 const FILTERS = [
@@ -16,7 +16,7 @@ const FILTERS = [
 ];
 
 function LastExit({ j, now }) {
-  if (j.state === 'running') return <><span className="main">{j.runningSince ? `started ${ago(j.runningSince, now)}` : `pid ${j.pid}`}</span><span className="more">{j.lastExit ? `last ${j.lastExit.words}` : ''}</span></>;
+  if (j.state === 'running') return <><span className="main">{j.runningSince ? `started ${ago(j.runningSince, now)}` : `pid ${j.pid}`}</span><span className="more">{j.lastExit ? `before this: ${shortExit(j.lastExit)}` : ''}</span></>;
   if (!j.lastExit) return <span className="more">none recorded</span>;
   return <><span className={`main${j.lastExit.code !== 0 ? ' code-bad' : ''}`}>{j.lastExit.words}</span><span className="more">{j.lastExit.at ? ago(j.lastExit.at, now) : 'from launchd'}</span></>;
 }

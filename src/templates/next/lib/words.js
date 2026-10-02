@@ -21,6 +21,9 @@ export function dur(ms) {
   return `${Math.floor(ms / 60000)}m ${Math.round((ms % 60000) / 1000)}s`;
 }
 export const rowTime = (r) => Date.parse(r.end || r.start);
+// "was killed by SIGKILL" for a signal, "ended with exit 3" for a code.
+export const lastRunWords = (e) => (e.code < 0 ? `was ${e.words}` : `ended with ${e.words}`);
+export const shortExit = (e) => (e.code < 0 ? e.words.replace(/^killed by /, '') : e.words);
 export const runWord = (r) => (r.status === 'ok' || r.status === 'fail' ? `exit ${r.code}` : r.status === 'tripped' ? 'skipped' : 'held');
 export const runState = (r) => (r.status === 'ok' ? 'ok' : r.status === 'fail' ? 'failed' : r.status === 'tripped' ? 'tripped' : 'held');
 
@@ -29,7 +32,7 @@ export function stateSentence(j, now) {
   switch (j.state) {
     case 'running': return `It is running${j.pid ? ` as pid ${j.pid}` : ''}${j.runningSince ? `, started ${ago(j.runningSince, now)}` : ''}.`;
     case 'tripped': return `The breaker tripped after ${j.breaker.fails} failures in a row with exit ${j.breaker.code}. The wrapper skips every tick until you clear it.`;
-    case 'failed': return j.lastExit ? `Its last run ended with ${j.lastExit.words}${j.lastExit.at ? `, ${ago(j.lastExit.at, now)}` : ''}.` : 'Its last run failed.';
+    case 'failed': return j.lastExit ? `Its last run ${lastRunWords(j.lastExit)}${j.lastExit.at ? `, ${ago(j.lastExit.at, now)}` : ''}.` : 'Its last run failed.';
     case 'held': return j.breaker && j.breaker.next > now ? `The breaker holds it back until ${when(j.breaker.next, now)}.` : 'Its last tick was held back.';
     case 'ok': return `Its last run ended with exit 0${j.lastExit && j.lastExit.at ? `, ${ago(j.lastExit.at, now)}` : ''}.`;
     case 'loaded': return 'It is loaded and waiting for its next start.';
@@ -42,7 +45,7 @@ export function stateSentence(j, now) {
 /** What to do next about a job that needs attention. */
 export function nextStep(j) {
   if (j.state === 'tripped') return `Fix the cause, then clear the breaker with: launchboard reset ${j.ledgerLabel || j.label}`;
-  if (j.state === 'failed') return 'Read the last lines of its log below to see why.';
+  if (j.state === 'failed') return j.logs.length ? 'Read the last lines of its log below to see why.' : 'It writes no log LaunchBoard can find. Set StandardOutPath in its plist, or run it through launchboard run --log, to see why it fails.';
   if (j.state === 'held') return 'The wrapper runs it again when the hold ends. Any successful run clears the breaker.';
   if (j.state === 'unreadable') return 'Check the plist with: plutil -lint <file>';
   return '';

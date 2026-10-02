@@ -24,6 +24,7 @@ export const MANIFEST = [
   ['gitignore', '.gitignore', ALL],
   ['README.md', 'README.md', ALL],
   ['app/globals.css', 'app/globals.css', ALL],
+  ['app/icon.svg', 'app/icon.svg', ALL],
   ['app/api/state/route.js', 'app/api/state/route.js', ALL],
   ['app/api/job/route.js', 'app/api/job/route.js', ALL],
   ['lib/words.js', 'lib/words.js', ALL],

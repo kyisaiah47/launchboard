@@ -34,6 +34,9 @@
     return `${Math.floor(ms / 60000)}m ${Math.round((ms % 60000) / 1000)}s`;
   }
   const rowTime = (r) => Date.parse(r.end || r.start);
+  // "was killed by SIGKILL" for a signal, "ended with exit 3" for a code.
+  const lastRunWords = (e) => (e.code < 0 ? `was ${e.words}` : `ended with ${e.words}`);
+  const shortExit = (e) => (e.code < 0 ? e.words.replace(/^killed by /, '') : e.words);
 
   // ── state of the page ─────────────────────────────────────────────────────────────────────
   const params = new URLSearchParams(location.search);
@@ -43,6 +46,7 @@
   let snap = null;
   let detail = null;
   let detailTimer = null;
+  let lastRows = '';
 
   // ── the summary ───────────────────────────────────────────────────────────────────────────
   function scopeHtml(s) {
@@ -77,7 +81,7 @@
 
   // ── the table ─────────────────────────────────────────────────────────────────────────────
   function lastExitCell(j, now) {
-    if (j.state === 'running') return { main: j.runningSince ? `started ${ago(j.runningSince, now)}` : `pid ${j.pid}`, more: j.lastExit ? `last ${j.lastExit.words}` : '' };
+    if (j.state === 'running') return { main: j.runningSince ? `started ${ago(j.runningSince, now)}` : `pid ${j.pid}`, more: j.lastExit ? `before this: ${shortExit(j.lastExit)}` : '' };
     if (!j.lastExit) return { main: '<span class="more">none recorded</span>', more: '', raw: true };
     const bad = j.lastExit.code !== 0;
     return { main: `<span class="${bad ? 'code-bad' : ''}">${esc(j.lastExit.words)}</span>`, more: j.lastExit.at ? ago(j.lastExit.at, now) : j.lastExit.source === 'launchd' ? 'from launchd' : '', raw: true };
@@ -118,10 +122,10 @@
     switch (j.state) {
       case 'running': return `It is running${j.pid ? ` as pid ${j.pid}` : ''}${j.runningSince ? `, started ${ago(j.runningSince, now)}` : ''}.`;
       case 'tripped': return `The breaker tripped after ${j.breaker.fails} failures in a row with exit ${j.breaker.code}. The wrapper skips every tick until you clear it.`;
-      case 'failed': return j.lastExit ? `Its last run ended with ${j.lastExit.words}${j.lastExit.at ? `, ${ago(j.lastExit.at, now)}` : ''}.` : 'Its last run failed.';
+      case 'failed': return j.lastExit ? `Its last run ${lastRunWords(j.lastExit)}${j.lastExit.at ? `, ${ago(j.lastExit.at, now)}` : ''}.` : 'Its last run failed.';
       case 'held': return j.breaker && j.breaker.next > now ? `The breaker holds it back until ${when(j.breaker.next, now)}.` : 'Its last tick was held back.';
       case 'ok': return `Its last run ended with exit 0${j.lastExit && j.lastExit.at ? `, ${ago(j.lastExit.at, now)}` : ''}.`;
-      case 'loaded': return j.lastExit && j.lastExit.source === 'launchd' ? `It is loaded and waiting. launchd reports its last exit as ${j.lastExit.words.replace('exit ', '')}.` : 'It is loaded and waiting.';
+      case 'loaded': return 'It is loaded and waiting for its next start.';
       case 'unloaded': return 'It is not loaded, so launchd will not start it.';
       case 'unreadable': return `Its plist could not be read: ${j.error}.`;
       default: return '';
@@ -187,7 +191,19 @@ ${wrapHint}`;
     $('warn').innerHTML = warns.join(' ');
     drawFilters(s);
     const list = visible(s);
-    $('rows').innerHTML = list.map((j) => row(j, s.now)).join('');
+    // Redraw the rows only when they change, and give focus back to the row that had it, so a
+    // keyboard user is not thrown out of the table every two seconds.
+    const html = list.map((j) => row(j, s.now)).join('');
+    if (html !== lastRows) {
+      const focused = document.activeElement && document.activeElement.closest ? document.activeElement.closest('tr[data-label]') : null;
+      const keep = focused ? focused.dataset.label : null;
+      $('rows').innerHTML = html;
+      lastRows = html;
+      if (keep) {
+        const again = [...$('rows').querySelectorAll('tr[data-label]')].find((tr) => tr.dataset.label === keep);
+        if (again) again.querySelector('.job-name').focus({ preventScroll: true });
+      }
+    }
     const empty = $('empty');
     empty.hidden = list.length > 0;
     if (!list.length) {
