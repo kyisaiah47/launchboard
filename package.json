@@ -1,6 +1,6 @@
 {
   "name": "launchboard",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "One page for every scheduled job on your Mac: what is running, what failed, what ran today.",
   "type": "module",
   "license": "MIT",

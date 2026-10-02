@@ -95,3 +95,15 @@ test('finds the wrapper in program arguments', () => {
   assert.deepEqual(unwrap(['/usr/local/bin/node', '/opt/x/launchboard/src/cli.js', 'run', 'a.b', '--', 'x']), { label: 'a.b', argv: ['x'] });
   assert.equal(unwrap(['/bin/echo', 'run', 'launchboard']), null);
 });
+
+test('launchboard status lines up its columns', async () => {
+  const { spawnSync } = await import('node:child_process');
+  const path = await import('node:path');
+  const { ROOT, FIX, EXAMPLES } = await import('./helpers.js');
+  const r = spawnSync(process.execPath, [path.join(ROOT, 'src', 'cli.js'), 'status', '--prefix', 'com.example.launchboard.', '--agents-dir', EXAMPLES, '--log-dir', path.join(FIX, 'logs')], { encoding: 'utf8' });
+  assert.equal(r.status, 0, r.stderr);
+  const rows = r.stdout.trim().split('\n').slice(1).filter((l) => l.startsWith('ok') || l.startsWith('unloaded') || l.startsWith('loaded'));
+  assert.equal(rows.length, 2);
+  const starts = rows.map((l) => l.search(/(every|daily)/));
+  assert.equal(new Set(starts).size, 1, 'the schedule column starts at the same place on every row');
+});

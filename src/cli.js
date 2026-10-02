@@ -81,11 +81,12 @@ function printStatus(snap) {
   const lines = [];
   lines.push(`${c.jobs} jobs, ${c.running} running, ${c.failed} failed on their last run, ${c.tripped} tripped, ${c.held} held. ${c.runsToday} runs recorded today.`);
   if (!snap.launchctl.ok) lines.push(`launchctl could not be read: ${snap.launchctl.error}`);
+  const exitOf = (j) => (j.lastExit ? j.lastExit.words : '-');
   const w = Math.min(60, Math.max(10, ...snap.jobs.map((j) => j.label.length)));
+  const ew = Math.max(4, ...snap.jobs.map((j) => exitOf(j).length));
   for (const j of snap.jobs) {
-    const exit = j.lastExit ? j.lastExit.words : '-';
     const today = j.today.runs ? `${j.today.runs} today${j.today.failed ? `, ${j.today.failed} failed` : ''}` : '';
-    lines.push(`${j.state.padEnd(10)} ${j.label.padEnd(w)}  ${exit.padEnd(16)} ${j.schedule.text}${today ? `  (${today})` : ''}`);
+    lines.push(`${j.state.padEnd(10)} ${j.label.padEnd(w)}  ${exitOf(j).padEnd(ew)}  ${j.schedule.text}${today ? `  (${today})` : ''}`);
   }
   process.stdout.write(`${lines.join('\n')}\n`);
 }
