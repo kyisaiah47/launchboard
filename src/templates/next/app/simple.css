@@ -81,7 +81,9 @@
 .sv-welcome-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--rule); padding: 10px 16px 10px 24px; }
 .sv-welcome-top .sv-brand { font-size: 14px; }
 .sv-welcome-top small { color: var(--ink-faint); font: 11px var(--mono); margin-left: 6px; }
-.sv-welcome-top > button { font-size: 26px; width: 44px; height: 44px; color: var(--ink-dim); }
+.sv-welcome-top > button { display: grid; place-items: center; flex: none; width: 44px; height: 44px; padding: 0; background: none; border: 0; border-radius: 6px; cursor: pointer; line-height: 1; color: var(--ink-dim); }
+.sv-welcome-top > button:focus-visible { outline-offset: -2px; }
+.sv-welcome-top > button svg { display: block; width: 20px; height: 20px; }
 .sv-welcome-top > button:hover { color: var(--ink); }
 .sv-welcome-intro { padding: 28px 32px 22px; }
 .sv-welcome-intro h2 { font: 500 clamp(26px, 3vw, 34px)/1.2 var(--sans); letter-spacing: -0.03em; padding-bottom: 14px; }
