@@ -104,11 +104,19 @@ export default function ConsoleBoard({ viewToggle } = {}) {
     return () => window.removeEventListener('keydown', k);
   });
 
+  /* THE HEADER IS TWO ROWS. The bar carries the name and the live state. The rail under it carries
+   * the Console / Simple toggle first and then the board's scope, and scrolls sideways in its own
+   * box when its cells do not fit. */
   const bar = (
-    <header className="bar">
-      {viewToggle ? <span className="sv-brand-stack"><span className="brand">LaunchBoard</span>{viewToggle}</span> : <span className="brand">LaunchBoard</span>}
-      <p className="scope">{snap ? scopeWords(snap) : ''}</p>
-      <p className="live" data-state={status}><i aria-hidden="true" />{status}{snap ? <span className="clock">{new Date(snap.now).toLocaleTimeString()}</span> : null}</p>
+    <header className="bar-head">
+      <div className="bar">
+        <span className="brand">LaunchBoard</span>
+        <p className="live" data-state={status}><i aria-hidden="true" />{status}{snap ? <span className="clock">{new Date(snap.now).toLocaleTimeString()}</span> : null}</p>
+      </div>
+      <div className="bar-rail">
+        {viewToggle ? <span className="bar-rail-view">{viewToggle}</span> : null}
+        <p className="scope">{snap ? scopeWords(snap) : ''}</p>
+      </div>
     </header>
   );
   if (!snap) return <>{bar}<main className="lb-main"><p className="lede">Reading launchd.</p></main></>;

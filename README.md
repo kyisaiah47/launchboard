@@ -97,7 +97,7 @@ Each command writes a Next.js app whose API routes call LaunchBoard.
 
 - **Console** shows every job in a table and places the open job's details beside it.
 - **Simple** shows jobs that need attention first. You can open logs, runs and programs on request.
-- **Both** installs the two views. Each view's header shows a switch beside the name.
+- **Both** installs the two views. The Console view shows the switch first in the row under the header. The Simple view shows the switch beside the name.
 
 Run `cd my-board && npm install && npm run dev`, then open http://127.0.0.1:3991.
 

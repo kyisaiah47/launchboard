@@ -134,7 +134,7 @@ td .more { display: block; color: var(--ink-faint); font-size: 12.5px; overflow:
 .code-bad { color: var(--s-failed); }
 
 /* ---- the detail panel ------------------------------------------------------------------------- */
-.detail { position: sticky; top: 76px; max-height: calc(100vh - 96px); overflow: auto; }
+.detail { position: sticky; top: calc(var(--head-h) + 24px); max-height: calc(100vh - var(--head-h) - 44px); overflow: auto; }
 .d-head { padding: 18px 20px 16px; border-bottom: 1px solid var(--rule); display: grid; gap: 8px; }
 .d-head h2 { font: 600 15px/1.45 var(--mono); overflow-wrap: anywhere; }
 .d-head p { color: var(--ink-dim); font-size: 14px; }
@@ -197,3 +197,25 @@ td .more { display: block; color: var(--ink-faint); font-size: 12.5px; overflow:
 .lb-foot { display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: 16px 28px; }
 .lb-foot p { margin: 0; }
 .d-sec code, .empty code { font: 12.5px var(--mono); color: var(--ink); background: var(--panel-2); border: 1px solid var(--rule); border-radius: 5px; padding: 1px 5px; }
+
+/* ---- the header's second row ------------------------------------------------------------------
+ * The bar and the rail under it pin together. --head-h is the bar plus the rail, and every sticky
+ * offset under the header reads it. The rail's cells never wrap or cut: it scrolls sideways in its
+ * own box with a thin scrollbar. */
+:root { --head-h: 84px; }
+.bar-head { position: sticky; top: 0; z-index: 5; background: var(--panel); border-bottom: 1px solid var(--rule); }
+.bar-head > .bar { position: static; border-bottom: 0; }
+.bar-head .live { margin-left: auto; }
+.bar-rail {
+  display: flex; align-items: center; height: 32px; padding: 0 var(--gutter);
+  border-top: 1px solid var(--rule); overflow-x: auto; overflow-y: hidden;
+  scrollbar-width: thin; scrollbar-color: var(--rule-strong) transparent;
+}
+.bar-rail::-webkit-scrollbar { height: 4px; }
+.bar-rail::-webkit-scrollbar-thumb { background: var(--rule-strong); border-radius: 4px; }
+.bar-rail::-webkit-scrollbar-track { background: transparent; }
+.bar-rail > * { flex: none; white-space: nowrap; }
+.bar-rail-view { display: flex; align-items: center; align-self: stretch; padding-right: 16px; margin-right: 16px; border-right: 1px solid var(--rule); }
+.bar-rail-view:last-child { border-right: 0; margin-right: 0; padding-right: 0; }
+.bar-rail .scope { order: 0; flex: none; flex-basis: auto; min-width: auto; overflow: visible; text-overflow: clip; white-space: nowrap; }
+.bar-rail .scope:empty { display: none; }
