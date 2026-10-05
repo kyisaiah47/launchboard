@@ -3,8 +3,7 @@
 // Writes a Next.js app wired to this package: API routes that call collect() and jobDetail(), and
 // the board as a Console view, a Simple view, or both with a switch between them. The Console view
 // is the dense working surface. The Simple view puts the jobs that need attention first and opens
-// details on request. With both, a welcome dialog explains the board and offers the choice, and
-// the footer of every page carries the switch.
+// details on request. With both, each view's header carries the switch beside the name.
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -38,7 +37,6 @@ export const MANIFEST = [
   ['components/site-view/SiteViewProvider.jsx', 'components/site-view/SiteViewProvider.jsx', BOTH],
   ['components/site-view/PageViews.jsx', 'components/site-view/PageViews.jsx', BOTH],
   ['components/site-view/ViewControls.jsx', 'components/site-view/ViewControls.jsx', BOTH],
-  ['components/site-view/Welcome.jsx', 'components/site-view/Welcome.jsx', BOTH],
   ['app/layout.console.jsx', 'app/layout.jsx', ['console']],
   ['app/layout.simple.jsx', 'app/layout.jsx', ['simple']],
   ['app/layout.both.jsx', 'app/layout.jsx', BOTH],

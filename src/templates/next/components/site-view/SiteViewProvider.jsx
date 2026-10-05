@@ -4,11 +4,8 @@
 // Only the preference goes to localStorage; the open job, the filter and the search live in memory
 // (lib/useBoard.js useKept), so a switch remounts the markup without losing them.
 import { createContext, useCallback, useContext, useEffect, useState } from 'react';
-import Welcome from './Welcome';
 
 export const VIEW_KEY = 'launchboard:view';
-export const WELCOME_OFF_KEY = 'launchboard:welcome-off';
-export const WELCOME_EVENT = 'launchboard:welcome';
 
 const Context = createContext(null);
 export const useSiteView = () => useContext(Context);
@@ -39,12 +36,9 @@ export default function SiteViewProvider({ children }) {
 
   useEffect(() => { document.documentElement.dataset.view = view; }, [view]);
 
-  const welcome = useCallback(() => window.dispatchEvent(new Event(WELCOME_EVENT)), []);
-
   return (
-    <Context.Provider value={{ view, choose, welcome }}>
+    <Context.Provider value={{ view, choose }}>
       {children}
-      <Welcome />
     </Context.Provider>
   );
 }

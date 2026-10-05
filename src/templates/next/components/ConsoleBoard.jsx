@@ -92,7 +92,7 @@ function Detail({ j, full, now, onClose }) {
   );
 }
 
-export default function ConsoleBoard() {
+export default function ConsoleBoard({ viewToggle } = {}) {
   const { snap, status } = useBoard();
   const [filter, setFilter] = useKept('console:filter', 'all');
   const [query, setQuery] = useKept('console:query', '');
@@ -106,7 +106,7 @@ export default function ConsoleBoard() {
 
   const bar = (
     <header className="bar">
-      <span className="brand">LaunchBoard</span>
+      {viewToggle ? <span className="sv-brand-stack"><span className="brand">LaunchBoard</span>{viewToggle}</span> : <span className="brand">LaunchBoard</span>}
       <p className="scope">{snap ? scopeWords(snap) : ''}</p>
       <p className="live" data-state={status}><i aria-hidden="true" />{status}{snap ? <span className="clock">{new Date(snap.now).toLocaleTimeString()}</span> : null}</p>
     </header>

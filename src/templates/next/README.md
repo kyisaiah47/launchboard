@@ -34,6 +34,6 @@ LAUNCHBOARD_PREFIX=com.example. npm run dev
 - `app/api/job/route.js` returns one job with longer log tails.
 - `components/ConsoleBoard.jsx` is the Console view. It shows a dense table with the open job beside it.
 - `components/SimpleBoard.jsx` is the Simple view. It shows the jobs that need attention first and puts details in disclosures.
-- With `--app both`, `components/site-view/` holds the view switch, the welcome dialog and the footer controls. The app saves the view choice in `localStorage` under `launchboard:view`.
+- With `--app both`, `components/site-view/` holds the view switch. Each view's header shows it beside the name. The app saves the view choice in `localStorage` under `launchboard:view`.
 
 The app only reads. No route loads, unloads or starts a job.

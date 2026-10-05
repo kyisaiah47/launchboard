@@ -1,6 +1,5 @@
 import Footer from '../components/Footer';
 import SiteViewProvider from '../components/site-view/SiteViewProvider';
-import ViewControls from '../components/site-view/ViewControls';
 import './globals.css';
 import './simple.css';
 
@@ -12,7 +11,7 @@ export default function RootLayout({ children }) {
       <body>
         <SiteViewProvider>
           {children}
-          <Footer><ViewControls /></Footer>
+          <Footer />
         </SiteViewProvider>
       </body>
     </html>

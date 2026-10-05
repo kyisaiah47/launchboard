@@ -60,11 +60,11 @@ function todayLine(j, now) {
   return `${parts.filter(Boolean).join(', ')}.${last ? ` Last ${when(rowTime(last), now)}.` : ''}`;
 }
 
-export default function SimpleBoard() {
+export default function SimpleBoard({ viewToggle } = {}) {
   const { snap, status } = useBoard();
   const nav = (
     <header className="sv-nav">
-      <span className="sv-brand">LaunchBoard</span>
+      {viewToggle ? <span className="sv-brand-stack"><span className="sv-brand">LaunchBoard</span>{viewToggle}</span> : <span className="sv-brand">LaunchBoard</span>}
       <p className="sv-live" data-state={status}><i aria-hidden="true" />{status === 'live' ? 'Live, updates every two seconds' : status}</p>
     </header>
   );

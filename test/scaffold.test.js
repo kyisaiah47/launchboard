@@ -25,8 +25,9 @@ for (const mode of MODES) {
     const page = fs.readFileSync(path.join(r.dir, 'app/page.jsx'), 'utf8');
     assert.equal(files.includes('components/ConsoleBoard.jsx'), mode !== 'simple');
     assert.equal(files.includes('components/SimpleBoard.jsx'), mode !== 'console');
-    assert.equal(files.includes('components/site-view/Welcome.jsx'), mode === 'both');
-    if (mode === 'both') assert.match(page, /PageViews consoleView=\{<ConsoleBoard \/>\} simpleView=\{<SimpleBoard \/>\}/);
+    assert.ok(!files.includes('components/site-view/Welcome.jsx'));
+    assert.equal(files.includes('components/site-view/ViewControls.jsx'), mode === 'both');
+    if (mode === 'both') assert.match(page, /PageViews consoleView=\{<ConsoleBoard viewToggle=\{<ViewControls \/>\} \/>\} simpleView=\{<SimpleBoard viewToggle=\{<ViewControls \/>\} \/>\}/);
     else assert.match(page, mode === 'console' ? /<ConsoleBoard \/>/ : /<SimpleBoard \/>/);
     for (const f of files.filter((x) => /\.jsx?$/.test(x))) {
       const text = fs.readFileSync(path.join(r.dir, f), 'utf8');
