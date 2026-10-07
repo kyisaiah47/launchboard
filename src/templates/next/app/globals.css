@@ -201,7 +201,7 @@ td .more { display: block; color: var(--ink-faint); font-size: 12.5px; overflow:
 /* ---- the header's second row ------------------------------------------------------------------
  * The bar and the rail under it pin together. --head-h is the bar plus the rail, and every sticky
  * offset under the header reads it. The rail's cells never wrap or cut: it scrolls sideways in its
- * own box with a thin scrollbar. */
+ * own box with no visible scrollbar. */
 :root { --head-h: 84px; }
 .bar-head { position: sticky; top: 0; z-index: 5; background: var(--panel); border-bottom: 1px solid var(--rule); }
 .bar-head > .bar { position: static; border-bottom: 0; }
@@ -209,11 +209,9 @@ td .more { display: block; color: var(--ink-faint); font-size: 12.5px; overflow:
 .bar-rail {
   display: flex; align-items: center; height: 32px; padding: 0 var(--gutter);
   border-top: 1px solid var(--rule); overflow-x: auto; overflow-y: hidden;
-  scrollbar-width: thin; scrollbar-color: var(--rule-strong) transparent;
+  scrollbar-width: none; -ms-overflow-style: none;
 }
-.bar-rail::-webkit-scrollbar { height: 4px; }
-.bar-rail::-webkit-scrollbar-thumb { background: var(--rule-strong); border-radius: 4px; }
-.bar-rail::-webkit-scrollbar-track { background: transparent; }
+.bar-rail::-webkit-scrollbar { display: none; }
 .bar-rail > * { flex: none; white-space: nowrap; }
 .bar-rail-view { display: flex; align-items: center; align-self: stretch; padding-right: 16px; margin-right: 16px; border-right: 1px solid var(--rule); }
 .bar-rail-view:last-child { border-right: 0; margin-right: 0; padding-right: 0; }
